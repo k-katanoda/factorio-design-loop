@@ -1,6 +1,22 @@
 {
   "status": "PASS_STATIC_LIMITED",
   "entity_count": 776,
+  "checks": {
+    "connectivity": {
+      "status": "PASS",
+      "underground_ambiguous": [],
+      "underground_overlong": [],
+      "underground_direction_mismatch": []
+    },
+    "fluid_compatibility": {
+      "status": "UNKNOWN",
+      "reason": "Fluid identity and game-engine connection behavior are not simulated."
+    },
+    "supply_capacity": {
+      "status": "UNKNOWN",
+      "reason": "Fluid throughput and demand are not simulated."
+    }
+  },
   "fluid_model": "subset: pipe / underground pipe / storage tank / offshore pump / heat exchanger / steam turbine",
   "geometry_errors": [],
   "fluid_nodes": 620,
