@@ -1,0 +1,25 @@
+{
+  "status": "PASS_STATIC_LIMITED",
+  "entity_count": 776,
+  "fluid_model": "subset: pipe / underground pipe / storage tank / offshore pump / heat exchanger / steam turbine",
+  "fluid_nodes": 620,
+  "underground_pairs": 20,
+  "underground_unpaired": [],
+  "water": {
+    "sources": 1,
+    "inputs": 48,
+    "reachable": 48,
+    "unreachable_ids": []
+  },
+  "steam": {
+    "sources": 48,
+    "turbines": 84,
+    "reachable": 84,
+    "unreachable_ids": []
+  },
+  "errors": [],
+  "warnings": [
+    "Heat conduction, terrain, nuclear fuel logistics and real fluid throughput are NOT simulated."
+  ],
+  "diagnostics": []
+}

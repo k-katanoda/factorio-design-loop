@@ -1,0 +1,8 @@
+{
+  "description": "Candidate repair: replace an underground stub with a normal pipe, bridge the gap, remove the now-conflicting underground stub.",
+  "operations": [
+    {"op":"update","id":622,"expect_name":"pipe-to-ground","set":{"name":"pipe","position":{"x":29.5,"y":23.5}}},
+    {"op":"add","entity":{"name":"pipe","position":{"x":29.5,"y":24.5}}},
+    {"op":"remove","id":620,"expect_name":"pipe-to-ground"}
+  ]
+}

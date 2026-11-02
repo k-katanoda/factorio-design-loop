@@ -1,0 +1,45 @@
+{
+  "added": [
+    {
+      "name": "pipe",
+      "position": {
+        "x": 29.5,
+        "y": 24.5
+      },
+      "entity_number": 777
+    }
+  ],
+  "removed": [
+    {
+      "entity_number": 620,
+      "name": "pipe-to-ground",
+      "position": {
+        "x": 29.5,
+        "y": 28.5
+      },
+      "direction": 8
+    }
+  ],
+  "updated": [
+    {
+      "before": {
+        "entity_number": 622,
+        "name": "pipe-to-ground",
+        "position": {
+          "x": 29.5,
+          "y": 23.5
+        },
+        "direction": 0
+      },
+      "after": {
+        "entity_number": 622,
+        "name": "pipe",
+        "position": {
+          "x": 29.5,
+          "y": 23.5
+        },
+        "direction": 0
+      }
+    }
+  ]
+}

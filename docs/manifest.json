@@ -1,0 +1,16 @@
+{
+  "source": "designs/nuclear_baseline.txt",
+  "base_sha256": "d4d6725735e4fbed1c6b143ad1701edc9a1015cb30b3866ed4f0c29532d5ba19",
+  "blueprint_sha256": "1fbdd3354a3b2e3322c40542796665139077c68c1bccbd73fbffe687372d6383",
+  "patch_description": "Candidate repair: replace an underground stub with a normal pipe, bridge the gap, remove the now-conflicting underground stub.",
+  "operation_count": 3,
+  "gate": "STATIC_PASS_GAME_NOT_TESTED",
+  "known_limitations": [
+    "Subset-only fluid model",
+    "Static topology not real flow",
+    "Heat network not checked",
+    "Fuel/circuits not checked",
+    "No Factorio runtime placement test",
+    "No terrain verification"
+  ]
+}
