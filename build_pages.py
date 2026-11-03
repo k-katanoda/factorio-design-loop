@@ -19,6 +19,8 @@ def generate(out: Path):
     integrated_links = viewer_links(integrated)
     mining = load(ROOT/'designs/nuclear_mining_provisional.txt')
     mining_links = viewer_links(mining)
+    solar = load(ROOT/'designs/nuclear_solar_startup_candidate.txt')
+    solar_links = viewer_links(solar)
     def esc(v): return html.escape(str(v), quote=True)
     def li(s): return f'<li>{esc(s)}</li>'
     page = f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,6 +30,12 @@ article{{border:1px solid #8b8b8b55;border-radius:12px;padding:18px;margin:15px 
 small{{color:gray}} th,td{{padding:6px 14px 6px 0;text-align:left}} table{{border-collapse:collapse}} .warning{{font-weight:700}} code{{overflow-wrap:anywhere}}
 </style></head><body>
 <h1>Factorio 工場設計</h1><p>現在の候補：<strong>{esc(revision)}</strong> ／ 4基原子炉</p>
+<article><h2>太陽光による起動電源を追加した仮配置</h2>
+<p>採掘・硫酸供給の候補に、太陽光パネル200基、蓄電池1基と給電用設備を追加しました。</p>
+<p class="warning">日射100%が続く前提です。夜間には対応していません。地形・ゲーム内での給電と稼働は未検証（UNKNOWN）です。</p>
+<a class="action" href="{esc(solar_links['factorio_tools'])}" rel="noopener noreferrer">起動電源付き候補をFactorioToolsで開く</a>
+<a class="action" href="{esc(solar_links['factorygamefan'])}" rel="noopener noreferrer">起動電源付き候補をFactoryGameFanで開く</a>
+<p><a href="nuclear-solar-startup.txt" download>起動電源付きBlueprint</a> ・ <a href="startup-solar.md">電力計算と未確認事項</a></p></article>
 <article><h2>採掘・硫酸供給を追加した仮配置</h2>
 <p>電気採掘機、油井、石油処理、硫黄・硫酸製造、水ポンプ、硫酸タンクを追加した実験候補です。</p>
 <p class="warning">鉱床・油田・海岸は仮定です。図面は資源や水面を生成しません。ゲーム内の設置・運転・循環は未検証（UNKNOWN）です。</p>
@@ -72,6 +80,8 @@ small{{color:gray}} th,td{{padding:6px 14px 6px 0;text-align:left}} table{{borde
     shutil.copyfile(ROOT/'reports/nuclear_uranium_ore_candidate.json', out/'nuclear-fuel-integrated-report.json')
     shutil.copyfile(ROOT/'designs/nuclear_mining_provisional.txt', out/'nuclear-mining-provisional.txt')
     shutil.copyfile(ROOT/'reports/mining_acid_provisional.md', out/'mining-acid-provisional.md')
+    shutil.copyfile(ROOT/'designs/nuclear_solar_startup_candidate.txt', out/'nuclear-solar-startup.txt')
+    shutil.copyfile(ROOT/'reports/startup_solar.md', out/'startup-solar.md')
     (out/'.nojekyll').write_text('', encoding='utf-8')
 
 if __name__ == '__main__':
