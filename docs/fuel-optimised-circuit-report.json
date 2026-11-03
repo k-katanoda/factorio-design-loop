@@ -1,0 +1,604 @@
+{
+  "blueprint_label": "Nuclear x 4",
+  "source_path": "designs/nuclear_fuel_optimised_source.txt",
+  "candidate_path": "designs/nuclear_fuel_optimised_circuit_v1.txt",
+  "entity_count": 868,
+  "reactor_count": 4,
+  "game_tested": false,
+  "source_sha256": "decbe294c1c46a6e5203c149acaeab86d54545edc662e02ebca7bad179648a7b",
+  "candidate_sha256": "f32b307f0647f432cf50d8d308e9f0e19607fe5f00cd7931382b6dd0faf65995",
+  "changed_entity_count": 8,
+  "changed_entities": [
+    {
+      "entity_number": 336,
+      "name": "long-handed-inserter",
+      "before": {
+        "entity_number": 336,
+        "name": "long-handed-inserter",
+        "position": {
+          "x": -17.5,
+          "y": -200.5
+        },
+        "direction": 12,
+        "control_behavior": {
+          "circuit_enabled": true,
+          "circuit_condition": {
+            "first_signal": {
+              "type": "virtual",
+              "name": "signal-thermometer-blue"
+            },
+            "constant": 1,
+            "comparator": "="
+          }
+        },
+        "override_stack_size": 1
+      },
+      "after": {
+        "entity_number": 336,
+        "name": "long-handed-inserter",
+        "position": {
+          "x": -17.5,
+          "y": -200.5
+        },
+        "direction": 12,
+        "control_behavior": {
+          "circuit_enabled": true,
+          "circuit_condition": {
+            "first_signal": {
+              "name": "depleted-uranium-fuel-cell"
+            },
+            "constant": 0,
+            "comparator": ">"
+          }
+        },
+        "override_stack_size": 1
+      }
+    },
+    {
+      "entity_number": 347,
+      "name": "long-handed-inserter",
+      "before": {
+        "entity_number": 347,
+        "name": "long-handed-inserter",
+        "position": {
+          "x": -4.5,
+          "y": -200.5
+        },
+        "direction": 4,
+        "control_behavior": {
+          "circuit_enabled": true,
+          "circuit_condition": {
+            "first_signal": {
+              "type": "virtual",
+              "name": "signal-thermometer-blue"
+            },
+            "constant": 1,
+            "comparator": "="
+          }
+        },
+        "override_stack_size": 1
+      },
+      "after": {
+        "entity_number": 347,
+        "name": "long-handed-inserter",
+        "position": {
+          "x": -4.5,
+          "y": -200.5
+        },
+        "direction": 4,
+        "control_behavior": {
+          "circuit_enabled": true,
+          "circuit_condition": {
+            "first_signal": {
+              "name": "depleted-uranium-fuel-cell"
+            },
+            "constant": 0,
+            "comparator": ">"
+          }
+        },
+        "override_stack_size": 1
+      }
+    },
+    {
+      "entity_number": 374,
+      "name": "decider-combinator",
+      "before": {
+        "entity_number": 374,
+        "name": "decider-combinator",
+        "position": {
+          "x": -17.5,
+          "y": -199
+        },
+        "control_behavior": {
+          "decider_conditions": {
+            "conditions": [
+              {
+                "first_signal": {
+                  "name": "uranium-fuel-cell"
+                },
+                "comparator": "="
+              },
+              {
+                "first_signal": {
+                  "type": "virtual",
+                  "name": "signal-T"
+                },
+                "constant": 550,
+                "compare_type": "and"
+              }
+            ],
+            "outputs": [
+              {
+                "signal": {
+                  "type": "virtual",
+                  "name": "signal-thermometer-blue"
+                },
+                "copy_count_from_input": false
+              }
+            ]
+          }
+        }
+      },
+      "after": {
+        "entity_number": 374,
+        "name": "decider-combinator",
+        "position": {
+          "x": -17.5,
+          "y": -199
+        },
+        "control_behavior": {
+          "decider_conditions": {
+            "conditions": [
+              {
+                "first_signal": {
+                  "name": "uranium-fuel-cell"
+                },
+                "comparator": "=",
+                "constant": 0
+              },
+              {
+                "first_signal": {
+                  "type": "virtual",
+                  "name": "signal-T"
+                },
+                "comparator": "<",
+                "constant": 550,
+                "compare_type": "and"
+              }
+            ],
+            "outputs": [
+              {
+                "signal": {
+                  "type": "virtual",
+                  "name": "signal-thermometer-blue"
+                },
+                "copy_count_from_input": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "entity_number": 377,
+      "name": "decider-combinator",
+      "before": {
+        "entity_number": 377,
+        "name": "decider-combinator",
+        "position": {
+          "x": -4.5,
+          "y": -199
+        },
+        "control_behavior": {
+          "decider_conditions": {
+            "conditions": [
+              {
+                "first_signal": {
+                  "name": "uranium-fuel-cell"
+                },
+                "comparator": "="
+              },
+              {
+                "first_signal": {
+                  "type": "virtual",
+                  "name": "signal-T"
+                },
+                "constant": 550,
+                "compare_type": "and"
+              }
+            ],
+            "outputs": [
+              {
+                "signal": {
+                  "type": "virtual",
+                  "name": "signal-thermometer-blue"
+                },
+                "copy_count_from_input": false
+              }
+            ]
+          }
+        }
+      },
+      "after": {
+        "entity_number": 377,
+        "name": "decider-combinator",
+        "position": {
+          "x": -4.5,
+          "y": -199
+        },
+        "control_behavior": {
+          "decider_conditions": {
+            "conditions": [
+              {
+                "first_signal": {
+                  "name": "uranium-fuel-cell"
+                },
+                "comparator": "=",
+                "constant": 0
+              },
+              {
+                "first_signal": {
+                  "type": "virtual",
+                  "name": "signal-T"
+                },
+                "comparator": "<",
+                "constant": 550,
+                "compare_type": "and"
+              }
+            ],
+            "outputs": [
+              {
+                "signal": {
+                  "type": "virtual",
+                  "name": "signal-thermometer-blue"
+                },
+                "copy_count_from_input": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "entity_number": 550,
+      "name": "decider-combinator",
+      "before": {
+        "entity_number": 550,
+        "name": "decider-combinator",
+        "position": {
+          "x": -17.5,
+          "y": -193
+        },
+        "direction": 8,
+        "control_behavior": {
+          "decider_conditions": {
+            "conditions": [
+              {
+                "first_signal": {
+                  "name": "uranium-fuel-cell"
+                },
+                "comparator": "="
+              },
+              {
+                "first_signal": {
+                  "type": "virtual",
+                  "name": "signal-T"
+                },
+                "constant": 550,
+                "compare_type": "and"
+              }
+            ],
+            "outputs": [
+              {
+                "signal": {
+                  "type": "virtual",
+                  "name": "signal-thermometer-blue"
+                },
+                "copy_count_from_input": false
+              }
+            ]
+          }
+        }
+      },
+      "after": {
+        "entity_number": 550,
+        "name": "decider-combinator",
+        "position": {
+          "x": -17.5,
+          "y": -193
+        },
+        "direction": 8,
+        "control_behavior": {
+          "decider_conditions": {
+            "conditions": [
+              {
+                "first_signal": {
+                  "name": "uranium-fuel-cell"
+                },
+                "comparator": "=",
+                "constant": 0
+              },
+              {
+                "first_signal": {
+                  "type": "virtual",
+                  "name": "signal-T"
+                },
+                "comparator": "<",
+                "constant": 550,
+                "compare_type": "and"
+              }
+            ],
+            "outputs": [
+              {
+                "signal": {
+                  "type": "virtual",
+                  "name": "signal-thermometer-blue"
+                },
+                "copy_count_from_input": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "entity_number": 553,
+      "name": "decider-combinator",
+      "before": {
+        "entity_number": 553,
+        "name": "decider-combinator",
+        "position": {
+          "x": -4.5,
+          "y": -193
+        },
+        "direction": 8,
+        "control_behavior": {
+          "decider_conditions": {
+            "conditions": [
+              {
+                "first_signal": {
+                  "name": "uranium-fuel-cell"
+                },
+                "comparator": "="
+              },
+              {
+                "first_signal": {
+                  "type": "virtual",
+                  "name": "signal-T"
+                },
+                "constant": 550,
+                "compare_type": "and"
+              }
+            ],
+            "outputs": [
+              {
+                "signal": {
+                  "type": "virtual",
+                  "name": "signal-thermometer-blue"
+                },
+                "copy_count_from_input": false
+              }
+            ]
+          }
+        }
+      },
+      "after": {
+        "entity_number": 553,
+        "name": "decider-combinator",
+        "position": {
+          "x": -4.5,
+          "y": -193
+        },
+        "direction": 8,
+        "control_behavior": {
+          "decider_conditions": {
+            "conditions": [
+              {
+                "first_signal": {
+                  "name": "uranium-fuel-cell"
+                },
+                "comparator": "=",
+                "constant": 0
+              },
+              {
+                "first_signal": {
+                  "type": "virtual",
+                  "name": "signal-T"
+                },
+                "comparator": "<",
+                "constant": 550,
+                "compare_type": "and"
+              }
+            ],
+            "outputs": [
+              {
+                "signal": {
+                  "type": "virtual",
+                  "name": "signal-thermometer-blue"
+                },
+                "copy_count_from_input": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "entity_number": 586,
+      "name": "long-handed-inserter",
+      "before": {
+        "entity_number": 586,
+        "name": "long-handed-inserter",
+        "position": {
+          "x": -17.5,
+          "y": -191.5
+        },
+        "direction": 12,
+        "control_behavior": {
+          "circuit_enabled": true,
+          "circuit_condition": {
+            "first_signal": {
+              "type": "virtual",
+              "name": "signal-thermometer-blue"
+            },
+            "constant": 1,
+            "comparator": "="
+          }
+        },
+        "override_stack_size": 1
+      },
+      "after": {
+        "entity_number": 586,
+        "name": "long-handed-inserter",
+        "position": {
+          "x": -17.5,
+          "y": -191.5
+        },
+        "direction": 12,
+        "control_behavior": {
+          "circuit_enabled": true,
+          "circuit_condition": {
+            "first_signal": {
+              "name": "depleted-uranium-fuel-cell"
+            },
+            "constant": 0,
+            "comparator": ">"
+          }
+        },
+        "override_stack_size": 1
+      }
+    },
+    {
+      "entity_number": 597,
+      "name": "long-handed-inserter",
+      "before": {
+        "entity_number": 597,
+        "name": "long-handed-inserter",
+        "position": {
+          "x": -4.5,
+          "y": -191.5
+        },
+        "direction": 4,
+        "control_behavior": {
+          "circuit_enabled": true,
+          "circuit_condition": {
+            "first_signal": {
+              "type": "virtual",
+              "name": "signal-thermometer-blue"
+            },
+            "constant": 1,
+            "comparator": "="
+          }
+        },
+        "override_stack_size": 1
+      },
+      "after": {
+        "entity_number": 597,
+        "name": "long-handed-inserter",
+        "position": {
+          "x": -4.5,
+          "y": -191.5
+        },
+        "direction": 4,
+        "control_behavior": {
+          "circuit_enabled": true,
+          "circuit_condition": {
+            "first_signal": {
+              "name": "depleted-uranium-fuel-cell"
+            },
+            "constant": 0,
+            "comparator": ">"
+          }
+        },
+        "override_stack_size": 1
+      }
+    }
+  ],
+  "wire_replacements": [
+    {
+      "from": [
+        336,
+        1,
+        374,
+        3
+      ],
+      "to": [
+        432,
+        1,
+        374,
+        3
+      ]
+    },
+    {
+      "from": [
+        347,
+        1,
+        377,
+        3
+      ],
+      "to": [
+        434,
+        1,
+        377,
+        3
+      ]
+    },
+    {
+      "from": [
+        550,
+        3,
+        586,
+        1
+      ],
+      "to": [
+        550,
+        3,
+        494,
+        1
+      ]
+    },
+    {
+      "from": [
+        553,
+        3,
+        597,
+        1
+      ],
+      "to": [
+        553,
+        3,
+        496,
+        1
+      ]
+    }
+  ],
+  "added_wires": [
+    [
+      336,
+      1,
+      375,
+      1
+    ],
+    [
+      347,
+      1,
+      376,
+      1
+    ],
+    [
+      586,
+      1,
+      551,
+      1
+    ],
+    [
+      597,
+      1,
+      552,
+      1
+    ]
+  ],
+  "non_circuit_layout_changed": false,
+  "circuit_summary": "Per reactor: fuel feed is enabled by an isolated decider when uranium fuel-cell count is zero and temperature is below 550; spent-cell removal is enabled directly by that reactor's depleted uranium fuel-cell signal.",
+  "game_behavior": "UNKNOWN: circuit network behavior and inserter interactions have not been verified in Factorio."
+}
