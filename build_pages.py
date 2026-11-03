@@ -15,6 +15,8 @@ def generate(out: Path):
     fuel_blueprint = load(ROOT/'designs/nuclear_fuel_optimised_circuit_v1.txt')
     fuel_links = viewer_links(fuel_blueprint)
     fuel_report = json.loads((ROOT/'reports/nuclear_fuel_optimised_circuit_v1.json').read_text(encoding='utf-8'))
+    integrated = load(ROOT/'designs/nuclear_fuel_integrated_candidate.txt')
+    integrated_links = viewer_links(integrated)
     def esc(v): return html.escape(str(v), quote=True)
     def li(s): return f'<li>{esc(s)}</li>'
     page = f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,6 +26,12 @@ article{{border:1px solid #8b8b8b55;border-radius:12px;padding:18px;margin:15px 
 small{{color:gray}} th,td{{padding:6px 14px 6px 0;text-align:left}} table{{border-collapse:collapse}} .warning{{font-weight:700}} code{{overflow-wrap:anywhere}}
 </style></head><body>
 <h1>Factorio 工場設計</h1><p>現在の候補：<strong>{esc(revision)}</strong> ／ 4基原子炉</p>
+<article><h2>原子炉＋燃料製造・再処理プラント</h2>
+<p>4基原子炉の北側に燃料セル製造と使用済みセル再処理を配置した統合候補です。ウラン235・238と鉄板は外部から供給します。</p>
+<p class="warning">ゲーム内動作、旧形式からの変換、ベルト流量は未検証です（UNKNOWN）。</p>
+<a class="action" href="{esc(integrated_links['factorio_tools'])}" rel="noopener noreferrer">統合候補をFactorioToolsで開く</a>
+<a class="action" href="{esc(integrated_links['factorygamefan'])}" rel="noopener noreferrer">統合候補をFactoryGameFanで開く</a>
+<p><a href="nuclear-fuel-integrated.txt" download>統合Blueprint</a> ・ <a href="nuclear-fuel-integrated-report.json">検証状況</a></p></article>
 <article><h2>検証状況</h2><p class="warning">静的検証は限定的に合格・ゲーム内稼働は未検証</p>
 <table><tr><th>水入力への到達</th><td>{validation['water']['reachable']} / {validation['water']['inputs']} 基</td></tr>
 <tr><th>蒸気タービンへの到達</th><td>{validation['steam']['reachable']} / {validation['steam']['turbines']} 基</td></tr>
@@ -51,6 +59,8 @@ small{{color:gray}} th,td{{padding:6px 14px 6px 0;text-align:left}} table{{borde
     shutil.copyfile(ROOT/'designs/nuclear_fuel_optimised_circuit_v1.txt', out/'fuel-optimised-blueprint.txt')
     shutil.copyfile(ROOT/'designs/nuclear_fuel_optimised_source.txt', out/'fuel-optimised-source.txt')
     shutil.copyfile(ROOT/'reports/nuclear_fuel_optimised_circuit_v1.json', out/'fuel-optimised-circuit-report.json')
+    shutil.copyfile(ROOT/'designs/nuclear_fuel_integrated_candidate.txt', out/'nuclear-fuel-integrated.txt')
+    shutil.copyfile(ROOT/'reports/nuclear_fuel_integrated_candidate.json', out/'nuclear-fuel-integrated-report.json')
     (out/'.nojekyll').write_text('', encoding='utf-8')
 
 if __name__ == '__main__':

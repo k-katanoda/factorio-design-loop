@@ -1,0 +1,14 @@
+{
+  "blueprint_sha256": "f2d21f35027777a584fabc6c7d1918bde3257ec12f4f702a22003ce2ff8fab40",
+  "status": "UNKNOWN",
+  "fuel_route": "plant east output -> reactor north input; 10 new belts",
+  "spent_route": "reactor north output -> plant east input; 14 surface belts and 2 underground endpoints",
+  "power_connection": "source pole 129 connected to reactor substation 12",
+  "game_tested": false,
+  "limitations": [
+    "1.1 to 2.0 conversion and circuit behavior require game verification",
+    "Full belt lane and throughput behavior not simulated",
+    "Plant requires external uranium-235, uranium-238 and iron plates"
+  ],
+  "collision_check": "No cross-component overlaps found using approximate rectangular footprints"
+}
