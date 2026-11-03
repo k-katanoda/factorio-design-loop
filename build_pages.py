@@ -17,6 +17,8 @@ def generate(out: Path):
     fuel_report = json.loads((ROOT/'reports/nuclear_fuel_optimised_circuit_v1.json').read_text(encoding='utf-8'))
     integrated = load(ROOT/'designs/nuclear_uranium_ore_candidate.txt')
     integrated_links = viewer_links(integrated)
+    mining = load(ROOT/'designs/nuclear_mining_provisional.txt')
+    mining_links = viewer_links(mining)
     def esc(v): return html.escape(str(v), quote=True)
     def li(s): return f'<li>{esc(s)}</li>'
     page = f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,6 +28,12 @@ article{{border:1px solid #8b8b8b55;border-radius:12px;padding:18px;margin:15px 
 small{{color:gray}} th,td{{padding:6px 14px 6px 0;text-align:left}} table{{border-collapse:collapse}} .warning{{font-weight:700}} code{{overflow-wrap:anywhere}}
 </style></head><body>
 <h1>Factorio 工場設計</h1><p>現在の候補：<strong>{esc(revision)}</strong> ／ 4基原子炉</p>
+<article><h2>採掘・硫酸供給を追加した仮配置</h2>
+<p>電気採掘機、油井、石油処理、硫黄・硫酸製造、水ポンプ、硫酸タンクを追加した実験候補です。</p>
+<p class="warning">鉱床・油田・海岸は仮定です。図面は資源や水面を生成しません。ゲーム内の設置・運転・循環は未検証（UNKNOWN）です。</p>
+<a class="action" href="{esc(mining_links['factorio_tools'])}" rel="noopener noreferrer">仮配置をFactorioToolsで開く</a>
+<a class="action" href="{esc(mining_links['factorygamefan'])}" rel="noopener noreferrer">仮配置をFactoryGameFanで開く</a>
+<p><a href="nuclear-mining-provisional.txt" download>仮配置Blueprint</a> ・ <a href="mining-acid-provisional.md">出典・収支と未確認事項</a></p></article>
 <article><h2>原子炉＋燃料製造・再処理プラント</h2>
 <p>4基原子炉に燃料セル製造・再処理、電気炉1基、ウラン鉱石処理設備を接続した統合候補です。ウラン鉱石と鉄鉱石は外部から供給します。</p>
 <p class="warning">ゲーム内動作、旧形式からの変換、ベルト流量は未検証です（UNKNOWN）。</p>
@@ -62,6 +70,8 @@ small{{color:gray}} th,td{{padding:6px 14px 6px 0;text-align:left}} table{{borde
     shutil.copyfile(ROOT/'reports/nuclear_fuel_optimised_circuit_v1.json', out/'fuel-optimised-circuit-report.json')
     shutil.copyfile(ROOT/'designs/nuclear_uranium_ore_candidate.txt', out/'nuclear-fuel-integrated.txt')
     shutil.copyfile(ROOT/'reports/nuclear_uranium_ore_candidate.json', out/'nuclear-fuel-integrated-report.json')
+    shutil.copyfile(ROOT/'designs/nuclear_mining_provisional.txt', out/'nuclear-mining-provisional.txt')
+    shutil.copyfile(ROOT/'reports/mining_acid_provisional.md', out/'mining-acid-provisional.md')
     (out/'.nojekyll').write_text('', encoding='utf-8')
 
 if __name__ == '__main__':
