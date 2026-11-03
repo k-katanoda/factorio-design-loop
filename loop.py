@@ -103,15 +103,39 @@ def build_graph(es):
                 candidates.append((length,other))
         return min(candidates)[1] if candidates else None
     by_id={x[0]:x for x in underground}
-    pairs=[];unpaired=[]
+    pairs=[];unpaired=[];ambiguous=[];overlong=[];direction_mismatch=[]
     for u in underground:
+        idx,(x,y),d=u
+        dx,dy=VEC[d]
+        compatible=[]
+        for other,(ox,oy),od in underground:
+            if other==idx: continue
+            vx,vy=ox-x,oy-y
+            if dx*vy != dy*vx or vx*dx+vy*dy <= 0: continue
+            gap=(vx*dx+vy*dy)//2
+            if od==(d+8)%16:
+                if 1 <= gap <= 11: compatible.append(other)
+                elif gap > 11: overlong.append(idx)
+            elif gap <= 11:
+                direction_mismatch.extend((idx,other))
+        if len(compatible)>1: ambiguous.append(idx)
         other=nearest(u)
         if other is None:unpaired.append(u[0]);continue
+        candidates=[]
+        for v in underground:
+            if v[0]!=u[0] and v[2]==(u[2]+8)%16:
+                vx=v[1][0]-u[1][0];vy=v[1][1]-u[1][1];dx,dy=VEC[u[2]]
+                if vx*dy==vy*dx and vx*dx+vy*dy>0 and (vx*dx+vy*dy)//2<=11:candidates.append(v[0])
+        if len(candidates)>1: ambiguous.append(u[0])
         if nearest(by_id[other]) !=u[0]:unpaired.append(u[0]);continue
         edge=tuple(sorted((u[0],other)))
         if edge not in pairs:pairs.append(edge)
         a=(u[0],'main');b=(other,'main');adj[a].add(b);adj[b].add(a)
-    return adj,ports_by_node,pairs,unpaired,unsupported
+    paired_ids={i for pair in pairs for i in pair}
+    ambiguous=[i for i in set(ambiguous) if i not in paired_ids]
+    overlong=[i for i in set(overlong) if i not in paired_ids or i in unpaired]
+    direction_mismatch=[i for i in set(direction_mismatch) if i not in paired_ids]
+    return adj,ports_by_node,pairs,unpaired,unsupported,ambiguous,overlong,direction_mismatch
 
 def walk(adj, seeds):
     seen=set(seeds); pending=list(seeds)
@@ -145,7 +169,7 @@ def check_geometry(es):
 
 def inspect(data):
     es=entities(data)
-    adj,ports,pairs,unpaired,unsupported=build_graph(es)
+    adj,ports,pairs,unpaired,unsupported,ambiguous,overlong,direction_mismatch=build_graph(es)
     pumps=[(e['entity_number'],'water') for e in es if e['name']=='offshore-pump']
     water_targets=[(e['entity_number'],'water') for e in es if e['name']=='heat-exchanger']
     steam_sources=[(e['entity_number'],'steam') for e in es if e['name']=='heat-exchanger']
@@ -176,7 +200,10 @@ def inspect(data):
         if e['name']=='steam-turbine':node=(e['entity_number'],'steam')
         if e['name']=='offshore-pump' and not adj.get(node):
             records.append({'id':e['entity_number'],'name':e['name'],'position':e['position'],'issue':'no-adjacent-pipe'})
-    return {'status':'FAIL' if errors else 'PASS_STATIC_LIMITED','entity_count':len(es),
+    connectivity=('UNKNOWN' if unsupported or ambiguous or overlong or direction_mismatch or unpaired else ('FAIL' if missing_water or missing_steam or mixed else 'PASS'))
+    overall='FAIL' if errors and not (unsupported or ambiguous or overlong or direction_mismatch) else ('UNKNOWN' if unsupported or ambiguous or overlong or direction_mismatch else 'PASS_STATIC_LIMITED')
+    return {'status':overall,'entity_count':len(es),
+            'checks':{'connectivity':{'status':connectivity,'underground_ambiguous':ambiguous,'underground_overlong':overlong,'underground_direction_mismatch':sorted(set(direction_mismatch))},'fluid_compatibility':{'status':'UNKNOWN','reason':'Fluid identity and game-engine connection behavior are not simulated.'},'supply_capacity':{'status':'UNKNOWN','reason':'Fluid throughput and demand are not simulated.'}},
             'fluid_model':'subset: pipe / underground pipe / storage tank / offshore pump / heat exchanger / steam turbine',
             'geometry_errors':[e for e in errors if 'footprint' in e],
             'fluid_nodes':len(adj),'underground_pairs':len(pairs),'underground_unpaired':unpaired,

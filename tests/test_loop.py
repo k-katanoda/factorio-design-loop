@@ -69,3 +69,53 @@ class ReleaseIntegrityTests(unittest.TestCase):
         terminals=[(e['entity_number'],'steam') for e in es if e['name']=='heat-exchanger']
         targets=[(e['entity_number'],'steam') for e in es if e['name']=='steam-turbine']
         self.assertEqual(sum(t in walk(adj,targets) for t in terminals),len(terminals))
+
+class ConservativeFluidModelTests(unittest.TestCase):
+    def test_existing_candidate_is_unknown_for_unmodelled_capacity(self):
+        result=inspect(FIXED)
+        self.assertEqual(result['status'],'PASS_STATIC_LIMITED')
+        self.assertEqual(result['checks']['connectivity']['status'],'PASS')
+        self.assertEqual(result['checks']['fluid_compatibility']['status'],'UNKNOWN')
+        self.assertEqual(result['checks']['supply_capacity']['status'],'UNKNOWN')
+
+    def test_unmodelled_entity_on_fluid_network_is_unknown(self):
+        candidate=copy.deepcopy(FIXED)
+        pipe=next(e for e in candidate['blueprint']['entities'] if e['name']=='pipe')
+        pipe['name']='pump'
+        result=inspect(candidate)
+        self.assertEqual(result['status'],'UNKNOWN')
+        self.assertEqual(result['checks']['connectivity']['status'],'UNKNOWN')
+
+    def test_multiple_underground_candidates_are_unknown(self):
+        candidate=copy.deepcopy(FIXED)
+        es=candidate['blueprint']['entities']
+        endpoint=next(e for e in es if e['name']=='pipe-to-ground')
+        extra=copy.deepcopy(endpoint)
+        extra['entity_number']=max(e['entity_number'] for e in es)+1
+        extra['position']={'x':endpoint['position']['x'],'y':endpoint['position']['y']+2}
+        es.append(extra)
+        result=inspect(candidate)
+        self.assertEqual(result['checks']['connectivity']['status'],'UNKNOWN')
+
+    def test_underground_direction_mismatch_is_unknown(self):
+        candidate=copy.deepcopy(FIXED)
+        es=candidate['blueprint']['entities']
+        endpoint=next(e for e in es if e['name']=='pipe-to-ground')
+        partner=min((e for e in es if e['name']=='pipe-to-ground' and e is not endpoint),key=lambda e:abs(e['position']['x']-endpoint['position']['x'])+abs(e['position']['y']-endpoint['position']['y']))
+        partner['position']={'x':endpoint['position']['x']+2,'y':endpoint['position']['y']}
+        partner['direction']=8
+        result=inspect(candidate)
+        self.assertEqual(result['checks']['connectivity']['status'],'UNKNOWN')
+
+    def test_overlong_underground_endpoints_are_unknown(self):
+        candidate=copy.deepcopy(FIXED)
+        es=candidate['blueprint']['entities']
+        endpoints=[e for e in es if e['name']=='pipe-to-ground']
+        endpoint=endpoints[0]
+        endpoint['position']={'x':0,'y':0}
+        partner=endpoints[1]
+        partner['position']={'x':24,'y':0}
+        endpoint['direction']=4
+        partner['direction']=12
+        result=inspect(candidate)
+        self.assertEqual(result['checks']['connectivity']['status'],'UNKNOWN')
