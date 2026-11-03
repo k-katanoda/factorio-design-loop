@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse, html, json, shutil
 from pathlib import Path
 from verify_release import ROOT, check
+from loop import load, viewer_links
 
 def generate(out: Path):
     revision = check()
@@ -11,6 +12,9 @@ def generate(out: Path):
     validation = json.loads((folder/'validation.json').read_text(encoding='utf-8'))
     manifest = json.loads((folder/'manifest.json').read_text(encoding='utf-8'))
     links = json.loads((folder/'viewer_urls.json').read_text(encoding='utf-8'))
+    fuel_blueprint = load(ROOT/'designs/nuclear_fuel_optimised_circuit_v1.txt')
+    fuel_links = viewer_links(fuel_blueprint)
+    fuel_report = json.loads((ROOT/'reports/nuclear_fuel_optimised_circuit_v1.json').read_text(encoding='utf-8'))
     def esc(v): return html.escape(str(v), quote=True)
     def li(s): return f'<li>{esc(s)}</li>'
     page = f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,6 +29,13 @@ small{{color:gray}} th,td{{padding:6px 14px 6px 0;text-align:left}} table{{borde
 <tr><th>蒸気タービンへの到達</th><td>{validation['steam']['reachable']} / {validation['steam']['turbines']} 基</td></tr>
 <tr><th>地下パイプ未ペア</th><td>{len(validation['underground_unpaired'])}</td></tr><tr><th>静的ゲート</th><td>{esc(manifest['gate'])}</td></tr></table>
 <p><small>地形、熱伝導、燃料搬送、流量、回路、Factorio本体での設置・稼働は未検証です。</small></p></article>
+<article><h2>Fuel-Optimisedベース：回路修正版 v1</h2>
+<p>公開ブループリントを複製し、4基それぞれの燃料投入・使用済み燃料回収回路を修正した候補です。</p>
+<p class="warning">回路のゲーム内動作は未検証です（UNKNOWN）。</p>
+<a class="action" href="{esc(fuel_links['factorio_tools'])}" rel="noopener noreferrer">回路修正版をFactorioToolsで開く</a>
+<a class="action" href="{esc(fuel_links['factorygamefan'])}" rel="noopener noreferrer">回路修正版をFactoryGameFanで開く</a>
+<p><a href="fuel-optimised-blueprint.txt" download>回路修正版Blueprint</a> ・ <a href="fuel-optimised-source.txt" download>元のBlueprint</a> ・ <a href="fuel-optimised-circuit-report.json">回路変更記録</a></p>
+<p><small>SHA-256: <code>{esc(fuel_report['candidate_sha256'])}</code></small></p></article>
 <article><h2>Androidで図面を開く</h2>
 <a class="action" href="{esc(links['factorio_tools'])}" rel="noopener noreferrer">FactorioToolsで開く</a>
 <a class="action" href="{esc(links['factorygamefan'])}" rel="noopener noreferrer">FactoryGameFanで開く</a>
@@ -37,6 +48,9 @@ small{{color:gray}} th,td{{padding:6px 14px 6px 0;text-align:left}} table{{borde
     (out/'index.html').write_text(page+'\n',encoding='utf-8')
     for name in ('blueprint.txt','validation.json','diff.json','manifest.json'):
         shutil.copyfile(folder/name, out/name)
+    shutil.copyfile(ROOT/'designs/nuclear_fuel_optimised_circuit_v1.txt', out/'fuel-optimised-blueprint.txt')
+    shutil.copyfile(ROOT/'designs/nuclear_fuel_optimised_source.txt', out/'fuel-optimised-source.txt')
+    shutil.copyfile(ROOT/'reports/nuclear_fuel_optimised_circuit_v1.json', out/'fuel-optimised-circuit-report.json')
     (out/'.nojekyll').write_text('', encoding='utf-8')
 
 if __name__ == '__main__':
