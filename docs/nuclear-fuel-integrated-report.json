@@ -1,27 +1,47 @@
 {
-  "blueprint_sha256": "da75e6b788c81ec42f4c73df0e254f28391379ec75543e00ce93c6b8478efc97",
+  "blueprint_sha256": "b290acb860df046c5f7cdc8677fbf9b620d16280e90a356bc1616ec29eda6e90",
   "status": "UNKNOWN",
   "changes": [
     "Corrected fuel and spent-cell inserter conditions and circuit wires for all four reactors",
-    "Moved spent-cell return from recovered uranium belt to the reprocessing input belt"
+    "Moved spent-cell return from recovered uranium belt to the reprocessing input belt",
+    "Added one electric furnace directly next to the fuel plant iron-plate input, linked by an adjacent belt tile and copper pole wire"
   ],
   "lane_trace": {
     "reactor_return": "Spent cells: reactor pickup -> circulation belt -> depleted-cell splitter -> north return -> west underground crossing -> reprocessing input belt",
     "reprocessing": "Input belt feeds six reprocessing centrifuges; their outputs enter the recovered-uranium belt",
     "recovered_uranium": "Output belt returns west and north through an underground belt toward the uranium loop and fuel assembler",
     "fuel_delivery": "Fuel assembler output uses the eastbound belt, then the new north-side belt enters the reactor fuel loop",
-    "unresolved": "Item distribution on individual lanes, interaction with iron plates on the shared fuel output belt, splitter filtering, underground endpoints and blocked-belt behavior have not been fully simulated"
+    "unresolved": "Individual lane distribution, splitter filtering, underground endpoints and blocked-belt behavior are not fully simulated.",
+    "iron_supply": "Electric furnace output belt at (-38.5,-239.5) connects east to the fuel plant iron input at (-37.5,-239.5); iron ore must be supplied from outside."
   },
   "geometry": "No cross-component overlaps found with approximate rectangular footprints",
   "game_tested": false,
   "external_inputs": [
     "uranium-235 for startup",
     "uranium-238",
-    "iron plates"
+    "iron ore"
   ],
   "limitations": [
     "1.1 to 2.0 conversion and circuit behavior require verification",
     "Complete lane-level flow and throughput are not simulated",
-    "This report does not prove in-game operation"
-  ]
+    "This report does not prove in-game operation",
+    "Electric furnace import, power coverage and operation require game verification"
+  ],
+  "smelter": {
+    "furnaces": 1,
+    "position": {
+      "x": -39.5,
+      "y": -236.5
+    },
+    "iron_ore_input": {
+      "x": -40.5,
+      "y": -233.5
+    },
+    "wires": [
+      "1038-1039: 7.211 tiles",
+      "1039-920: 3.162 tiles"
+    ],
+    "cross_component_rectangular_overlaps": 0,
+    "power_coverage": "UNKNOWN in game"
+  }
 }
