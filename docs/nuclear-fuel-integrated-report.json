@@ -1,14 +1,27 @@
 {
-  "blueprint_sha256": "f2d21f35027777a584fabc6c7d1918bde3257ec12f4f702a22003ce2ff8fab40",
+  "blueprint_sha256": "da75e6b788c81ec42f4c73df0e254f28391379ec75543e00ce93c6b8478efc97",
   "status": "UNKNOWN",
-  "fuel_route": "plant east output -> reactor north input; 10 new belts",
-  "spent_route": "reactor north output -> plant east input; 14 surface belts and 2 underground endpoints",
-  "power_connection": "source pole 129 connected to reactor substation 12",
-  "game_tested": false,
-  "limitations": [
-    "1.1 to 2.0 conversion and circuit behavior require game verification",
-    "Full belt lane and throughput behavior not simulated",
-    "Plant requires external uranium-235, uranium-238 and iron plates"
+  "changes": [
+    "Corrected fuel and spent-cell inserter conditions and circuit wires for all four reactors",
+    "Moved spent-cell return from recovered uranium belt to the reprocessing input belt"
   ],
-  "collision_check": "No cross-component overlaps found using approximate rectangular footprints"
+  "lane_trace": {
+    "reactor_return": "Spent cells: reactor pickup -> circulation belt -> depleted-cell splitter -> north return -> west underground crossing -> reprocessing input belt",
+    "reprocessing": "Input belt feeds six reprocessing centrifuges; their outputs enter the recovered-uranium belt",
+    "recovered_uranium": "Output belt returns west and north through an underground belt toward the uranium loop and fuel assembler",
+    "fuel_delivery": "Fuel assembler output uses the eastbound belt, then the new north-side belt enters the reactor fuel loop",
+    "unresolved": "Item distribution on individual lanes, interaction with iron plates on the shared fuel output belt, splitter filtering, underground endpoints and blocked-belt behavior have not been fully simulated"
+  },
+  "geometry": "No cross-component overlaps found with approximate rectangular footprints",
+  "game_tested": false,
+  "external_inputs": [
+    "uranium-235 for startup",
+    "uranium-238",
+    "iron plates"
+  ],
+  "limitations": [
+    "1.1 to 2.0 conversion and circuit behavior require verification",
+    "Complete lane-level flow and throughput are not simulated",
+    "This report does not prove in-game operation"
+  ]
 }
