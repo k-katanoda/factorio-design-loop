@@ -15,7 +15,7 @@ def generate(out: Path):
     fuel_blueprint = load(ROOT/'designs/nuclear_fuel_optimised_circuit_v1.txt')
     fuel_links = viewer_links(fuel_blueprint)
     fuel_report = json.loads((ROOT/'reports/nuclear_fuel_optimised_circuit_v1.json').read_text(encoding='utf-8'))
-    integrated = load(ROOT/'designs/nuclear_fuel_smelter_candidate.txt')
+    integrated = load(ROOT/'designs/nuclear_uranium_ore_candidate.txt')
     integrated_links = viewer_links(integrated)
     def esc(v): return html.escape(str(v), quote=True)
     def li(s): return f'<li>{esc(s)}</li>'
@@ -27,7 +27,7 @@ small{{color:gray}} th,td{{padding:6px 14px 6px 0;text-align:left}} table{{borde
 </style></head><body>
 <h1>Factorio 工場設計</h1><p>現在の候補：<strong>{esc(revision)}</strong> ／ 4基原子炉</p>
 <article><h2>原子炉＋燃料製造・再処理プラント</h2>
-<p>4基原子炉の北側に燃料セル製造・使用済みセル再処理と電気炉1基を配置した統合候補です。ウラン235・238と鉄鉱石は外部から供給します。</p>
+<p>4基原子炉に燃料セル製造・再処理、電気炉1基、ウラン鉱石処理設備を接続した統合候補です。ウラン鉱石と鉄鉱石は外部から供給します。</p>
 <p class="warning">ゲーム内動作、旧形式からの変換、ベルト流量は未検証です（UNKNOWN）。</p>
 <p>回収ベルトの誤接続と原子炉インサータの回路条件を修正しました。使用済みセルの返送先は再処理設備の入力ベルトです。レーン詰まりの有無は未確認です。</p>
 <a class="action" href="{esc(integrated_links['factorio_tools'])}" rel="noopener noreferrer">統合候補をFactorioToolsで開く</a>
@@ -60,8 +60,8 @@ small{{color:gray}} th,td{{padding:6px 14px 6px 0;text-align:left}} table{{borde
     shutil.copyfile(ROOT/'designs/nuclear_fuel_optimised_circuit_v1.txt', out/'fuel-optimised-blueprint.txt')
     shutil.copyfile(ROOT/'designs/nuclear_fuel_optimised_source.txt', out/'fuel-optimised-source.txt')
     shutil.copyfile(ROOT/'reports/nuclear_fuel_optimised_circuit_v1.json', out/'fuel-optimised-circuit-report.json')
-    shutil.copyfile(ROOT/'designs/nuclear_fuel_smelter_candidate.txt', out/'nuclear-fuel-integrated.txt')
-    shutil.copyfile(ROOT/'reports/nuclear_fuel_smelter_candidate.json', out/'nuclear-fuel-integrated-report.json')
+    shutil.copyfile(ROOT/'designs/nuclear_uranium_ore_candidate.txt', out/'nuclear-fuel-integrated.txt')
+    shutil.copyfile(ROOT/'reports/nuclear_uranium_ore_candidate.json', out/'nuclear-fuel-integrated-report.json')
     (out/'.nojekyll').write_text('', encoding='utf-8')
 
 if __name__ == '__main__':
