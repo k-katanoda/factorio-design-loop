@@ -15,7 +15,7 @@ def generate(out: Path):
     fuel_blueprint = load(ROOT/'designs/nuclear_fuel_optimised_circuit_v1.txt')
     fuel_links = viewer_links(fuel_blueprint)
     fuel_report = json.loads((ROOT/'reports/nuclear_fuel_optimised_circuit_v1.json').read_text(encoding='utf-8'))
-    integrated = load(ROOT/'designs/nuclear_fuel_integrated_candidate.txt')
+    integrated = load(ROOT/'designs/nuclear_fuel_integrated_corrected_v2.txt')
     integrated_links = viewer_links(integrated)
     def esc(v): return html.escape(str(v), quote=True)
     def li(s): return f'<li>{esc(s)}</li>'
@@ -29,6 +29,7 @@ small{{color:gray}} th,td{{padding:6px 14px 6px 0;text-align:left}} table{{borde
 <article><h2>原子炉＋燃料製造・再処理プラント</h2>
 <p>4基原子炉の北側に燃料セル製造と使用済みセル再処理を配置した統合候補です。ウラン235・238と鉄板は外部から供給します。</p>
 <p class="warning">ゲーム内動作、旧形式からの変換、ベルト流量は未検証です（UNKNOWN）。</p>
+<p>回収ベルトの誤接続と原子炉インサータの回路条件を修正しました。使用済みセルの返送先は再処理設備の入力ベルトです。レーン詰まりの有無は未確認です。</p>
 <a class="action" href="{esc(integrated_links['factorio_tools'])}" rel="noopener noreferrer">統合候補をFactorioToolsで開く</a>
 <a class="action" href="{esc(integrated_links['factorygamefan'])}" rel="noopener noreferrer">統合候補をFactoryGameFanで開く</a>
 <p><a href="nuclear-fuel-integrated.txt" download>統合Blueprint</a> ・ <a href="nuclear-fuel-integrated-report.json">検証状況</a></p></article>
@@ -59,7 +60,7 @@ small{{color:gray}} th,td{{padding:6px 14px 6px 0;text-align:left}} table{{borde
     shutil.copyfile(ROOT/'designs/nuclear_fuel_optimised_circuit_v1.txt', out/'fuel-optimised-blueprint.txt')
     shutil.copyfile(ROOT/'designs/nuclear_fuel_optimised_source.txt', out/'fuel-optimised-source.txt')
     shutil.copyfile(ROOT/'reports/nuclear_fuel_optimised_circuit_v1.json', out/'fuel-optimised-circuit-report.json')
-    shutil.copyfile(ROOT/'designs/nuclear_fuel_integrated_candidate.txt', out/'nuclear-fuel-integrated.txt')
+    shutil.copyfile(ROOT/'designs/nuclear_fuel_integrated_corrected_v2.txt', out/'nuclear-fuel-integrated.txt')
     shutil.copyfile(ROOT/'reports/nuclear_fuel_integrated_candidate.json', out/'nuclear-fuel-integrated-report.json')
     (out/'.nojekyll').write_text('', encoding='utf-8')
 
